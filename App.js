@@ -1,19 +1,30 @@
+
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {View,Text,StyleSheet} from 'react-native';
 
-export default function App() {
+import ShopNavigator from './navigation/navigator';
+
+import { createStore, combineReducers,applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import productsReducer from './store/reducer/products';
+import cartReducer from './store/reducer/cart';
+import ReduxThunk from 'redux-thunk';
+
+
+const rootReducer = combineReducers({
+  products: productsReducer,
+  cartItems : cartReducer
+})
+const store = createStore(rootReducer,applyMiddleware(ReduxThunk));
+
+
+const App = () =>{
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+    <Provider store={store}>
+          <ShopNavigator  />
+     </Provider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
