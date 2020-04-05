@@ -17,6 +17,7 @@ import MainScreen from '../screens/MainScreen';
 import AuthenticationScreen from '../screens/AuthenticationScreen';
 import TopProducts from '../components/topProducts';
 import OrderHistory from '../screens/Users/OrderHistory';
+import OrderTrack from '../screens/Users/OrderTrack';
 import CartScreen from '../screens/CartScreen';
 import ContactScreen from '../screens/ContactScreen';
 
@@ -206,13 +207,15 @@ const AuthScreen = (props) => {
       <Auth.Screen
         name="OrderHistory" component={OrderHistory}
       />
-     
-       
-          <Auth.Screen
-            name="Authen"
-            component={AuthenticationScreen}
-          />
-         
+      <Auth.Screen
+        name="OrderTrack" component={OrderTrack}
+      />
+
+      <Auth.Screen
+        name="Authen"
+        component={AuthenticationScreen}
+      />
+
     </Auth.Navigator>
   )
 }

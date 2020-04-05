@@ -89,6 +89,8 @@ const styles = StyleSheet.create({
         height: 30,
         width: width -30,
         paddingHorizontal: 10,
-        borderRadius: 12
+        borderRadius: 12,
+        borderColor:'coral',
+        borderWidth:2
     }
 });

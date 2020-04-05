@@ -4,20 +4,13 @@ import { StyleSheet,View,Text } from 'react-native';
 import Header from '../../components/Header';
 
 import CardListOrder from '../../components/CardListOrder';
-import { FlatList } from 'react-native-gesture-handler';
 
 import Categories from '../../data/CategoriesData';
 
 const OrderHistory = (props) =>{
 
-    // console.log(Categories);
 
 
-
-
-    const _goToOrderTrack = (order)=>{
-        props.navigation.navigate('OrderTrack',{order});
-    }
 
     const openDrawer= () =>{
         props.navigation.openDrawer();
@@ -39,25 +32,9 @@ const OrderHistory = (props) =>{
 
 
         <View style={styles.containerScreen}>
-                <Text style={styles.Title}>My Orders</Text>
+                <Text style={styles.Title}>Track Order</Text>
                 
-            <FlatList
-                data={Categories.categories}
-                renderItem={({item})=>{
-                    return (
-                        <CardListOrder 
-                            id={item.id}
-                            name={item.name}
-                            image={item.image}
-
-                            onPress={()=>_goToOrderTrack(item)}
-
-                        
-                        />
-                    )
-                }}
-                keyExtractor={item => item.id}
-            />
+           
         </View>
     )
 }
