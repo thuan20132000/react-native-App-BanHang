@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { StyleSheet,View,Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Header from '../../components/Header';
+
 
 
 const OrderHistory = (props) =>{
@@ -17,13 +18,21 @@ const OrderHistory = (props) =>{
         },
         headerTitle:()=>{
             return(
-                <Header openMenu={openDrawer}/>
+                <Header openMenu={openDrawer} {...props}/>
             )
-        }
+        },
+        headerLeft:false
+
     });
     return(
-        <View>
-                <Text>Information of User</Text>
+
+
+
+        <View style={styles.containerScreen}>
+                <Text>Order History</Text>
+            <View>
+
+            </View>
         </View>
     )
 }
@@ -31,6 +40,9 @@ export default OrderHistory;
 
 const styles = StyleSheet.create({
     containerScreen:{
-        flex:1
+        flex:1,
+        justifyContent:'flex-start',
+        alignItems:'center',
+        paddingTop:20
     }
 });

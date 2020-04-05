@@ -12,13 +12,16 @@ import * as cartActions from '../store/action/cart';
 
 
 const Card = (props) => {
+
+    console.log(props.items);
+
     const dispatch = useDispatch();
     const product = props.items.item;
     const products = useSelector(state => state.products.availableProducts);
+    
     const prod = products.find(p => p.id === product.productId);
 
-
-
+    
     const [getQuantity, setQuantity] = useState(1);
 
     const productCart = useSelector(state => state.cartItems.items[product.productId]);
@@ -78,6 +81,7 @@ const Card = (props) => {
                 <View style={styles.cardInfor}>
                     <Text style={styles.productName}>{prod.name}</Text>
                     <Text style={styles.productPrice}>${prod.price} x {productCart.quantity} = ${productCart.sum}</Text>
+
                     {
                         props.route?.name === "ShoppingCart" && (
                             <View style={styles.setQuanity}>
@@ -92,13 +96,6 @@ const Card = (props) => {
                         )
                     }
 
-                    {/* <View style={[{ position: 'absolute', right: 0, top: 0 }]}>
-                        <TouchableOpacity style={styles.cardButton}
-                            onPress={_handlerRemoveItem}
-                        >
-                            <Text style={styles.buttonText}>delete</Text>
-                        </TouchableOpacity>
-                    </View> */}
                 </View>
             </View> 
 

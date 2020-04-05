@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import {StyleSheet,View,Text,Image,Dimensions,ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Card from '../components/Card';
+import CardListProduct from '../components/CardListProduct';
 import Header from '../components/Header';
 import NavigationBar from '../components/NavigationBar';
 
@@ -11,14 +11,11 @@ import {useSelector} from 'react-redux';
 
 const ListProduct = (props) =>{
     const category = props.route.params?.category;
-
     const PRODUCTS = useSelector(state => state.products.availableProducts);
-    const productList = PRODUCTS.filter((product)=>product.cate_id === category.id);
-   
-    
-    
-   
-    
+    const productList = PRODUCTS.filter(product=>product.cate_id == category.id);
+       
+    console.log(category);
+
     const _handlerOnPress = (product) =>{
         props.navigation.navigate('ProductDetail',{product:product});
     }
@@ -26,6 +23,7 @@ const ListProduct = (props) =>{
     const _handlerBack = () =>{
             props.navigation.goBack();
     }
+    
     
     props.navigation.setOptions({
         headerLeft:null,
@@ -43,9 +41,9 @@ const ListProduct = (props) =>{
             <NavigationBar style={styles.navigationBar} cateName={category.name} onPress={_handlerBack} />
             <ScrollView>
                 {
-                    PRODUCTS.map((product,index)=>{
+                    productList.map((product,index)=>{
                         return(
-                            <Card product={product} key={index} onPress={()=>_handlerOnPress(product)}  />
+                            <CardListProduct product={product} key={index} onPress={()=>_handlerOnPress(product)} {...props}  />
                         )
                     })
                 }

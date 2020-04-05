@@ -1,12 +1,24 @@
 
 
-import React from 'react';
+import React,{useEffect} from 'react';
 import { StyleSheet, View, Text, Dimensions, Image, ImageBackground, ActivityIndicator,TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
+import {useSelector,useDispatch} from 'react-redux';
 
 import CategoriesData from '../data/CategoriesData';
 
+import * as CategoryActions from '../store/action/category';
+
 const Slide = (props) => {
+
+    const dispatch = useDispatch();
+    const Categories = useSelector(state => state.categories.availableCategory);
+
+    
+    useEffect(()=>{
+        dispatch(CategoryActions.fetchCategory());
+    },[dispatch]);
+
 
     const _handlerProductCategory = (category) =>{
          props.navigation.navigate('ListProduct',{category});
@@ -23,13 +35,13 @@ const Slide = (props) => {
             <View style={styles.slideContainer}>
                 <Swiper  showsButtons={false} autoplay={true}  height='100%'>
                     {
-                        CategoriesData.categories.map((category, index) => {
+                        Categories.map((category, index) => {
                             return (
                                 <TouchableOpacity style={styles.slide} key={index}
                                     onPress={()=>_handlerProductCategory(category)}
                                 >
                                     <ImageBackground  style={[styles.image]}
-                                        source={{uri:category.image}}
+                                        source={{uri:category.imageUrl}}
                                     >
                                         <Text style={styles.text}>{category.name}</Text>
                                     </ImageBackground>
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
         height:'100%',
         justifyContent:'center',
         alignItems:'center',
-        resizeMode:'center',
+        resizeMode:'contain',
     },
     text:{
         fontSize:20,

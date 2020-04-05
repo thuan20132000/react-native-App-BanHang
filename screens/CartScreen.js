@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Button, FlatList } from 'react-native';
-import Card from '../components/Card';
+
+import CardAddToCart from '../components/CardAddToCart';
 import Header from '../components/Header';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -73,7 +74,7 @@ const CartScreen = (props) => {
                 renderItem={ (rowData, rowMap,rowKey) =>{
                     console.log(rowData)
                     return (
-                        <Card
+                        <CardAddToCart
                             
                             items={rowData}
                             key={rowData.item.productId}
