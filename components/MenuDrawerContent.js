@@ -16,17 +16,19 @@ import * as authenticationActions from '../store/action/users';
 const MenuDrawerContent = (props) => {
 
     const dispatch = useDispatch();
-    const users = useSelector(state => state.authentication);
+
+    const auth = useSelector(state => state.authentication);
 
     const [isLogedIn, setIsLogedIn] = useState(false);
 
-    const [userName,setUserName] = useState();
+    const [getUserName,setUserName] = useState();
 
     useEffect(()=>{
-        if(users.token){
+        if(auth.token){
             setIsLogedIn(true);
-            setUserName(users.user.username);
+            setUserName(auth.name);
         }
+        console.log(auth);
     });
 
     
@@ -62,7 +64,7 @@ const MenuDrawerContent = (props) => {
             {isLogedIn ? (
                 <View style={styles.userFunctionsContainer}>
                     <View style={styles.userAuthContainer}>
-                        <Text style={{ textAlign: 'center', color: 'white' }}>{userName}</Text>
+                        <Text style={{ textAlign: 'center', color: 'white' }}>{getUserName}</Text>
                     </View>
                     <TouchableOpacity style={styles.userFunction} onPress={_handlerOrderHistory}>
                         <Text style={styles.userFunctionText}>Order History</Text>

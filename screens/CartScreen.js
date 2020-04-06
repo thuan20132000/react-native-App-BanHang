@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as cartActions from '../store/action/cart';
+import * as orderActions from '../store/action/order';
 
 
 const CartScreen = (props) => {
@@ -34,10 +35,19 @@ const CartScreen = (props) => {
         return cartToArray;
     });
 
+    const _handlerOrder = async () =>{
+
+        console.log(carts);
+        console.log(totalAmount)
+        
+        await dispatch(orderActions.addOrder(carts,totalAmount));
+    }
+
 
     const _handlerRemoveItem = async (productId) => {
         await dispatch(cartActions.removeFromCart(productId))
     }
+    
 
     props.navigation.setOptions({
         headerLeft: null,
@@ -61,6 +71,7 @@ const CartScreen = (props) => {
                 <View style={styles.orderButton}>
                     <Button
                         title="Order Now"
+                        onPress={_handlerOrder}
                     // disabled={cartItems.length === 0 ? true: false}
                     />
                 </View>
@@ -72,7 +83,6 @@ const CartScreen = (props) => {
                 data={carts}
                 keyExtractor={item => item.productId }
                 renderItem={ (rowData, rowMap,rowKey) =>{
-                    console.log(rowData)
                     return (
                         <CardAddToCart
                             

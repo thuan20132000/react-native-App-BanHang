@@ -26,7 +26,7 @@ const OrderHistory = (props) => {
             imageUrl: order.image,
           },
           {
-            time: '10:45 12-03',
+            time: '12:45 12-03',
             title: 'Play Badminton',
             location:'TP HCM',
             description: 'The Shipments has been proccessed in location',
@@ -34,7 +34,7 @@ const OrderHistory = (props) => {
             imageUrl: order.image,
           },
           {
-            time: '10:45 12-03',
+            time: '19:45 12-03',
             title: 'Play Badminton',
             location:'Da Nang',
             description: 'The Shipments is ready to picked up',
@@ -42,7 +42,7 @@ const OrderHistory = (props) => {
             imageUrl: order.image,
           },
           {
-            time: '10:45 12-03',
+            time: '6:45 13-03',
             title: 'Play Badminton',
             location:'Da Nang',
             description: 'The Shipments is ready to picked up',
@@ -50,7 +50,7 @@ const OrderHistory = (props) => {
             imageUrl: order.image,
           },
           {
-            time: '10:45 12-03',
+            time: '10:45 14-03',
             title: 'Play Badminton',
             location:'Da Nang',
             description: 'The Shipments is ready to picked up',
@@ -148,10 +148,15 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        resizeMode:'cover'
+        resizeMode:'cover',
+        padding:4
     },
     textLocation:{
         fontWeight:'bold',
-        fontSize:18
+        fontSize:18,
+        marginVertical:10
+    },
+    textDescription:{
+        marginVertical:4
     }
 });
