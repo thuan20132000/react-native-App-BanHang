@@ -61,7 +61,7 @@ const ProductDetail = (props) => {
             <ScrollView>
                 <View style={styles.productDetail}>
                     <Image style={styles.productImage}
-                        source={{ uri: product.imgUrl }}
+                        source={{ uri: 'https://i5.walmartimages.ca/images/Large/094/514/6000200094514.jpg' }}
                     />
                     
                     <Text style={styles.productName}>{product.name}</Text>

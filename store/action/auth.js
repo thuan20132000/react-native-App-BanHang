@@ -18,8 +18,6 @@ export const signup = (name,email,password) => {
 
   return async dispatch => {
     
-        // console.log(name,email,password);
-
         const response = await fetch(
             `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD4oTgzhKvN4E75yz0-X_O-mvYrVtE6mWw`,
             {
@@ -57,7 +55,7 @@ export const signup = (name,email,password) => {
         dispatch(authenticate(resData.localId,resData.idToken,name));
 
         const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        saveDataToStorage(resData.idToken,resData.localId,expirationDate);
+        saveDataToStorage(resData.idToken,resData.localId,expirationDate,name);
 
   };
 
@@ -107,12 +105,11 @@ export const login = (email,password) =>{
               // console.log("-=====--");
               // console.log(resData.localId);
               
-              console.log(resData);
               // console.log(new Date().getTime());
 
               const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
 
-              saveDataToStorage(resData.idToken,resData.localId,expirationDate);
+              saveDataToStorage(resData.idToken,resData.localId,expirationDate,resData.displayName);
 
               dispatch(authenticate(resData.localId,resData.idToken,resData.displayName));
     }
@@ -126,11 +123,12 @@ export const logout = () =>{
 }
 
 
-const saveDataToStorage =  (token,userId,expirationDate) =>{
+const saveDataToStorage =  (token,userId,expirationDate,name) =>{
     AsyncStorage.setItem('userData',JSON.stringify({
         token: token,
-        userid : userId,
-        expiryDate : expirationDate.toISOString()
+        userId : userId,
+        expiryDate : expirationDate.toISOString(),
+        name:name
       })
     );
 };

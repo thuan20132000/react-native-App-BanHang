@@ -13,8 +13,6 @@ import * as cartActions from '../store/action/cart';
 
 const Card = (props) => {
 
-    console.log(props.items);
-
     const dispatch = useDispatch();
     const product = props.items.item;
     const products = useSelector(state => state.products.availableProducts);

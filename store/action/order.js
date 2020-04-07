@@ -1,26 +1,33 @@
 
 
-// import Order from "../../models/order";
+import Order from "../../model/order";
+import { AsyncStorage } from "react-native";
 
 export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
 
 
 export const fetchOrders = ()=>{
-    return async (dispatch,getState) =>{
-        const userId = getState().auth.userId;
+    return async (dispatch) =>{
+        
+
+        const item = await AsyncStorage.getItem('userData');
+        const user = JSON.parse(item);
+        const userId = user.userId;
+        const userToken = user.token;
         const loadedOrders = [];
         try{
             const response = await fetch(
-                `https://shopp-app-dfc15.firebaseio.com/orders/${userId}.json`
+                `https://react-native-shopping-ap-6c952.firebaseio.com/orders/${userId}.json`
             );
 
             if(!response.ok){
                 throw new Error("Something went wrong");
+                console.log("something went wrong!!");
             }
             
             const resData = await response.json();
-            
+            // console.log(resData);
             for(const key in resData){
                 loadedOrders.push(
                    new Order(
@@ -40,8 +47,6 @@ export const fetchOrders = ()=>{
              //send to custom analytics server
             throw err;
         }
-
-        // console.log(loadedOrders);
         
     };
 };
@@ -51,13 +56,26 @@ export const fetchOrders = ()=>{
 export const addOrder = (cartItems,totalAmount)=>{
    
 
-    return async (dispatch,getState) => {
-        const dates = new Date();
-        // const token = getState().auth.token;
-        // const userId = getState().auth.userId;
-        const token = 'token-thuantruong';
-        const userId = 'u2';
-        const response = await fetch(`https://shopp-app-dfc15.firebaseio.com/orders/${userId}.json?auth=${token}`,
+    return async dispatch => {
+
+        // const userToken = getState();
+        const item = await AsyncStorage.getItem('userData');
+
+        var currentdate = new Date(); 
+        var orderDate = "Ordered At: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+        
+
+        const user = JSON.parse(item);
+        const userId = user.userId;
+        const userToken = user.token;
+        // const token = 'token-thuantruong';
+        // const userId = 'u2';
+        const response = await fetch(`https://react-native-shopping-ap-6c952.firebaseio.com/orders/${userId}.json?auth=${userToken}`,
         {
             method:'POST', 
             headers:{
@@ -66,27 +84,25 @@ export const addOrder = (cartItems,totalAmount)=>{
             body:JSON.stringify({
                cartItems,
                totalAmount,
-               date: dates.toISOString()
+               date: orderDate
             })
         });
         if(!response.ok){
             throw new Error('Something went wrong!!');
+            console.log("something went wrong!!");
         }
 
         const resData = await response.json();
 
         dispatch({
             type:ADD_ORDER,
-            orderData :{
+            orderData:{
                 id:resData.name,
                 items:cartItems,
                 amount:totalAmount,
-                date: dates
+                dates:orderDate
             }
-        })
-        
+        });
 
-
-        
     };
 };

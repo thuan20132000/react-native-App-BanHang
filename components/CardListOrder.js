@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CardListOrder = (props) => {
 
+
     const leftContent = <Text>Pull to activate</Text>;
         
     const rightButtons = [
@@ -23,19 +24,18 @@ const CardListOrder = (props) => {
 
             <View style={styles.card}>
                 <View style={styles.cardInfor}>
-                    <Text style={styles.orderCode}>Order: #1321</Text>
-                    <Text style={styles.orderTime}>12-04-2020 3:00 PM</Text>
+                    <Text style={styles.orderCode}>code: {props.id}</Text>
+                    <Text style={styles.orderTime}>{props.date}</Text>
                     <Text style={styles.orderDelivery}>Estimated Delivery on 16/4/2020 </Text>
-
-    
                 </View>
-                <TouchableOpacity style={{ width: '40%', height: '100%' }}
+                <TouchableOpacity style={{ width: '20%', height: '100%' }}
                     onPress={()=>props.onPress()}
                 >
                     <Image style={styles.cardImage}
-                        source={{ uri: props.image }}
+                        source={{ uri: 'https://d1marr3m5x4iac.cloudfront.net/images/original/I0-001/044/322/661-1.jpeg_/apple-blossom-awards-2020-61.jpeg' }}
                     />
                 </TouchableOpacity>
+
             </View> 
 
 
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
     cardInfor: {
         justifyContent: 'space-evenly',
-        width: '70%',
+        width: '80%',
         paddingRight: 20,
         height: '100%',
         alignItems: 'flex-start',

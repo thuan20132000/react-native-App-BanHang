@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Button, FlatList,ActivityIndicator } from 'react-native';
 
 import CardAddToCart from '../components/CardAddToCart';
 import Header from '../components/Header';
@@ -19,6 +19,7 @@ import * as orderActions from '../store/action/order';
 
 const CartScreen = (props) => {
 
+    const [isLoading,setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const totalAmount = useSelector(state => state.cartItems.totalAmount);
     const carts = useSelector(state => {
@@ -37,10 +38,13 @@ const CartScreen = (props) => {
 
     const _handlerOrder = async () =>{
 
-        console.log(carts);
-        console.log(totalAmount)
-        
-        await dispatch(orderActions.addOrder(carts,totalAmount));
+        setIsLoading(true);
+        try {
+            await dispatch(orderActions.addOrder(carts,totalAmount));
+        } catch (error) {
+            console.log(""+error);
+        }
+        setIsLoading(false);
     }
 
 
@@ -67,7 +71,7 @@ const CartScreen = (props) => {
                 <Text style={styles.summaryText}>Total :
                     <Text style={styles.amount}>${totalAmount}</Text>
                 </Text>
-                {/* {isLoading ? <ActivityIndicator size='small' color={Colors.primary} /> : */}
+                {isLoading ? <ActivityIndicator size='small' color="coral" /> :
                 <View style={styles.orderButton}>
                     <Button
                         title="Order Now"
@@ -75,7 +79,7 @@ const CartScreen = (props) => {
                     // disabled={cartItems.length === 0 ? true: false}
                     />
                 </View>
-                
+                }
             </View>
            
             <SwipeListView

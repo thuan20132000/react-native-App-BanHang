@@ -11,6 +11,8 @@ import productsReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cart';
 import categoriesReducer from './store/reducer/category';
 import authenticationReducer from './store/reducer/auth';
+import ordersReducer from './store/reducer/order';
+
 import ReduxThunk from 'redux-thunk';
 
 
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   cartItems : cartReducer,
   categories : categoriesReducer,
   authentication : authenticationReducer,
+  orders  : ordersReducer,
 
 })
 const store = createStore(rootReducer,applyMiddleware(ReduxThunk));

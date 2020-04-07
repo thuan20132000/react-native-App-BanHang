@@ -28,7 +28,6 @@ const MenuDrawerContent = (props) => {
             setIsLogedIn(true);
             setUserName(auth.name);
         }
-        console.log(auth);
     });
 
     

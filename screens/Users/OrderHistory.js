@@ -1,39 +1,63 @@
 
-import React from 'react';
-import { StyleSheet,View,Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet,View,Text,ActivityIndicator } from 'react-native';
 import Header from '../../components/Header';
 
 import CardListOrder from '../../components/CardListOrder';
 import { FlatList } from 'react-native-gesture-handler';
 
 import Categories from '../../data/CategoriesData';
+import * as orderAction from '../../store/action/order';
+
+import {useDispatch,useSelector} from 'react-redux';
 
 const OrderHistory = (props) =>{
 
     // console.log(Categories);
+    const dispatch = useDispatch();
+    const [isLoading,setIsLoading]  = useState(true);
+
+    const orders = useSelector(state => state.orders);
+    console.log("ORDER HISTORY============");
+    console.log(orders);
 
 
+    useEffect(()=>{
+        setIsLoading(true);
+        dispatch(orderAction.fetchOrders()).then(()=>{
+            setIsLoading(false);
+
+        })
+    },[]);
 
 
     const _goToOrderTrack = (order)=>{
         props.navigation.navigate('OrderTrack',{order});
     }
 
-    const openDrawer= () =>{
-        props.navigation.openDrawer();
-    }
+  
     props.navigation.setOptions({
         headerStyle:{
             backgroundColor:'tomato'
         },
         headerTitle:()=>{
             return(
-                <Header openMenu={openDrawer} {...props}/>
+                <Header openMenu={()=>props.navigation.openDrawer()} {...props}/>
             )
         },
         headerLeft:false
 
     });
+
+    if(isLoading){
+        return(
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <ActivityIndicator
+                    size='large' color="coral"
+                />
+            </View>
+        )
+    }
 
     return(
 
@@ -43,12 +67,13 @@ const OrderHistory = (props) =>{
                 <Text style={styles.Title}>My Orders</Text>
                 
             <FlatList
-                data={Categories.categories}
+                inverted
+                data={orders.orders}
                 renderItem={({item})=>{
                     return (
                         <CardListOrder 
                             id={item.id}
-                            name={item.name}
+                            date={item.date}
                             image={item.image}
 
                             onPress={()=>_goToOrderTrack(item)}
