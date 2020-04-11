@@ -1,22 +1,22 @@
 
 
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 
-import {useSelector,useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as  productActions from '../store/action/products';
 
 const topProduct = (props) => {
     const dispatch = useDispatch();
     const PRODUCTS = useSelector(state => state.products.availableProducts);
 
-    const _handlerProduct = (product) =>{
-            props.navigation.navigate('ProductDetail',{product});
+    const _handlerProduct = (product) => {
+        props.navigation.navigate('ProductDetail', { product });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(productActions.fetchProducts());
-    },[dispatch]);
+    }, [dispatch]);
 
     return (
         <View style={[styles.container, props.style]}>
@@ -28,12 +28,12 @@ const topProduct = (props) => {
                     PRODUCTS.map((product, index) => {
                         return (
                             <TouchableOpacity style={styles.productContainer} key={index}
-                                onPress={()=>{
+                                onPress={() => {
                                     _handlerProduct(product);
                                 }}
                             >
                                 <Image style={styles.productImage}
-                                    source={{ uri:product.imgUrl }}
+                                    source={{ uri: product.imgUrl }}
                                 />
                                 <Text style={styles.productName}>{product.name}</Text>
                                 <Text style={styles.productPrice}>${product.price}</Text>
@@ -54,10 +54,10 @@ const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
-        shadowColor: '#2E272B',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.2,
+        // backgroundColor: '#fff',
+        // shadowColor: '#2E272B',
+        // shadowOffset: { width: 0, height: 3 },
+        // shadowOpacity: 0.2,
 
     },
     text: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: width / 2 - 59,
-        height: height / 4 +60,
+        height: height / 4 + 60,
         marginVertical: 10,
         shadowColor: '#2E272B',
         shadowOffset: { width: 0, height: 3 },
@@ -97,6 +97,5 @@ const styles = StyleSheet.create({
     },
     productPrice: {
         color: 'coral',
-        fontFamily: 'Avenir'
     }
 });

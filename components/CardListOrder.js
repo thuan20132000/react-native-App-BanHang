@@ -11,28 +11,24 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CardListOrder = (props) => {
 
+    var estimateDelivery = new Date();
+    estimateDelivery.setDate(new Date().getDate() +2);
 
-    const leftContent = <Text>Pull to activate</Text>;
-        
-    const rightButtons = [
-        <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
-        <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-    ];
-
+  
     return (
 
 
             <View style={styles.card}>
                 <View style={styles.cardInfor}>
                     <Text style={styles.orderCode}>code: {props.id}</Text>
-                    <Text style={styles.orderTime}>{props.date}</Text>
-                    <Text style={styles.orderDelivery}>Estimated Delivery on 16/4/2020 </Text>
+                    <Text style={styles.orderTime}>Ordered At: {props.date}</Text>
+                    <Text style={styles.orderDelivery}>Estimated Delivery on {estimateDelivery.toDateString()} </Text>
                 </View>
                 <TouchableOpacity style={{ width: '20%', height: '100%' }}
                     onPress={()=>props.onPress()}
                 >
                     <Image style={styles.cardImage}
-                        source={{ uri: 'https://d1marr3m5x4iac.cloudfront.net/images/original/I0-001/044/322/661-1.jpeg_/apple-blossom-awards-2020-61.jpeg' }}
+                        source={{ uri: 'https://img.favpng.com/12/17/18/online-shopping-shopping-cart-logo-icon-png-favpng-DSd2eKs8wTkAMDxK9f9syDTQp.jpg' }}
                     />
                 </TouchableOpacity>
 
@@ -50,10 +46,10 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     card: {
         height: height / 8,
-        width:width - 80,
+        width:width - 40,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        marginHorizontal: 29,
+        marginHorizontal: 10,
         alignItems: 'center',
         marginVertical: 10,
         elevation: 5,

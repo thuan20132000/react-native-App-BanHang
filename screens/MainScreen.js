@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
 
     },
     topProducts: {
-        backgroundColor: 'red',
-        backgroundColor: '#fff',
-        shadowColor: '#2E272B',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.5,
-        marginTop: 20
+        // backgroundColor: 'red',
+        // backgroundColor: '#fff',
+        // shadowColor: '#2E272B',
+        // shadowOffset: { width: 0, height: 3 },
+        // shadowOpacity: 0.5,
+        // marginTop: 20
 
     }
 });

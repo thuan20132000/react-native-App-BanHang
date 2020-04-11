@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity,TouchableHighlight, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeable from 'react-native-swipeable-row';
 
 
@@ -13,14 +12,13 @@ import * as cartActions from '../store/action/cart';
 
 const Card = (props) => {
     const dispatch = useDispatch();
-    const product = props.product;
+    const { product } = props;
     const products = useSelector(state => state.products.availableProducts);
-    const [isLoading,setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
 
     const prod = products.find(p => p.id === product.id);
 
-    const [getProductDetail,setProductDetail] = useState();
 
     const [getQuantity, setQuantity] = useState(1);
 
@@ -28,24 +26,24 @@ const Card = (props) => {
 
 
     const _handlerGoDetail = () => {
-        props.navigation.navigate('ProductDetail',{product:prod});
+        props.navigation.navigate('ProductDetail', { product: prod });
         // console.log(props);
     }
-    const _handlerAddToCart = () =>{
+    const _handlerAddToCart = () => {
         dispatch(cartActions.addToCart(product));
     }
     const _handlerOrderNow = () => {
         console.log('order');
     }
 
-    const _onDrawerSnap = () =>{
+    const _onDrawerSnap = () => {
         return (
             <Text>fsdfs</Text>
         )
     }
 
     const leftContent = <Text>Pull to activate</Text>;
-        
+
     const rightButtons = [
         <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
         <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
@@ -53,29 +51,29 @@ const Card = (props) => {
 
     return (
 
-            // isLoading ?(<ActivityIndicator size='small' color='red' /> ):(
-                <View style={styles.cardContainer}>
-                    <TouchableOpacity style={{ width: '40%', height: '100%' }} onPress={_handlerGoDetail}>
-                        <Image style={styles.cardImage}
-                            source={{ uri: prod.imgUrl }}
-                        />
+        // isLoading ?(<ActivityIndicator size='small' color='red' /> ):(
+        <View style={styles.cardContainer}>
+            <TouchableOpacity style={{ width: '40%', height: '100%' }} onPress={_handlerGoDetail}>
+                <Image style={styles.cardImage}
+                    source={{ uri: prod.imgUrl }}
+                />
+            </TouchableOpacity>
+
+            <View style={styles.cardInfor}>
+                <Text style={styles.productName}>{prod.name}</Text>
+                <Text style={styles.productPrice}>${prod.price}</Text>
+                {/* <Text style={{}}>Stock : {prod.stock}</Text> */}
+
+                <View style={styles.addToCartContainer}>
+                    <TouchableOpacity style={styles.addToCartButton} onPress={_handlerAddToCart}>
+                        <Text style={styles.addToCartText}>Add To Cart</Text>
                     </TouchableOpacity>
+                </View>
+            </View>
 
-                    <View style={styles.cardInfor}>
-                        <Text style={styles.productName}>{prod.name}</Text>
-                        <Text style={styles.productPrice}>${prod.price}</Text>
-                        {/* <Text style={{}}>Stock : {prod.stock}</Text> */}
+        </View>
+        // )
 
-                        <View style={styles.addToCartContainer}>
-                            <TouchableOpacity style={styles.addToCartButton} onPress={_handlerAddToCart}>
-                                <Text style={styles.addToCartText}>Add To Cart</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    
-                </View> 
-            // )
-            
 
 
 
@@ -149,19 +147,19 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center'
     },
-    addToCartContainer:{
-        margin:28
-     },
-     addToCartButton:{
-         backgroundColor:'coral',
-         padding:18,
-         borderRadius:32,
-     },
-     addToCartText:{
-         fontSize:16,
-         fontWeight:'600',
-         color:'#fff',
-         textAlign:'center'
-     }
+    addToCartContainer: {
+        margin: 28
+    },
+    addToCartButton: {
+        backgroundColor: 'coral',
+        padding: 18,
+        borderRadius: 32,
+    },
+    addToCartText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#fff',
+        textAlign: 'center'
+    }
 
 });

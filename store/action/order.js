@@ -56,25 +56,22 @@ export const fetchOrders = ()=>{
 export const addOrder = (cartItems,totalAmount)=>{
    
 
-    return async dispatch => {
+    return async (dispatch,getState) => {
 
-        // const userToken = getState();
-        const item = await AsyncStorage.getItem('userData');
+        const user = getState().authentication;
+        // const item = await AsyncStorage.getItem('userData');
+
 
         var currentdate = new Date(); 
-        var orderDate = "Ordered At: " + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
+        var orderDate = currentdate.getDate() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
                 + currentdate.getFullYear() + " "  
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-        
-
-        const user = JSON.parse(item);
         const userId = user.userId;
         const userToken = user.token;
-        // const token = 'token-thuantruong';
-        // const userId = 'u2';
+       
         const response = await fetch(`https://react-native-shopping-ap-6c952.firebaseio.com/orders/${userId}.json?auth=${userToken}`,
         {
             method:'POST', 

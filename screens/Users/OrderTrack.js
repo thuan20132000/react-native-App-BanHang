@@ -19,7 +19,7 @@ const OrderHistory = (props) => {
        
           {
             time: '10:45 12-03',
-            title: 'Play Badminton',
+            title: 'Preparing Orders',
             location:'Da Nang',
             description: 'The Shipments is ready to picked up',
             // icon: require('../img/badminton.png'),
@@ -66,7 +66,7 @@ const OrderHistory = (props) => {
     function renderDetail(rowData, sectionID, rowID) {
         let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
-        if(rowData.description && rowData.imageUrl)
+        // if(rowData.description && rowData.imageUrl)
           desc = (
             <View style={styles.descriptionContainer}>   
               <Image source={{uri: rowData.imageUrl}} style={styles.image}/>
@@ -105,18 +105,16 @@ const OrderHistory = (props) => {
                 //..other props
                 data={data}
                 showTime={data.title}
-                circleSize={20}
                 circleColor='coral'
                 lineColor='rgb(45,156,219)'
-                timeContainerStyle={{ minWidth: 52, marginTop: -5 }}
-                timeStyle={{ textAlign: 'center', backgroundColor: '#ff9797', color: 'white', padding: 5, borderRadius: 13 }}
+                timeContainerStyle={{ minWidth: 100, marginTop: -5 }}
+                timeStyle={{ textAlign: 'center', backgroundColor: 'coral', color: 'white', padding: 5, borderRadius: 13 }}
                 descriptionStyle={{ color: 'gray' }}
                 options={{
                     style: { paddingTop: 5 }
                 }}
                 renderDetail={renderDetail}
-                // columnFormat='single-left'
-
+                separator={true}
             />
         </View>
 

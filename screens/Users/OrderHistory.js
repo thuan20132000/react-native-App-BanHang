@@ -18,11 +18,13 @@ const OrderHistory = (props) =>{
     const [isLoading,setIsLoading]  = useState(true);
 
     const orders = useSelector(state => state.orders);
-    console.log("ORDER HISTORY============");
-    console.log(orders);
+    const ordersData = orders.orders;
+
+ 
 
 
     useEffect(()=>{
+        
         setIsLoading(true);
         dispatch(orderAction.fetchOrders()).then(()=>{
             setIsLoading(false);
@@ -67,8 +69,8 @@ const OrderHistory = (props) =>{
                 <Text style={styles.Title}>My Orders</Text>
                 
             <FlatList
-                inverted
-                data={orders.orders}
+
+                data={ordersData.reverse()}
                 renderItem={({item})=>{
                     return (
                         <CardListOrder 
@@ -83,7 +85,8 @@ const OrderHistory = (props) =>{
                     )
                 }}
                 keyExtractor={item => item.id}
-            />
+
+        />
         </View>
     )
 }
