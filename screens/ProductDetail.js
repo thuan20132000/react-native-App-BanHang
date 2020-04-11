@@ -6,7 +6,7 @@ import Header from '../components/Header';
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as cartActions from '../store/action/cart';
-import ReviewProduct from '../components/reviewProduct';
+import ProductExtention from '../components/ProductExtention/ProductExtention';
 
 
 const ProductDetail = (props) => {
@@ -78,34 +78,14 @@ const ProductDetail = (props) => {
                             <Text style={styles.productPrice}>${productDetail.totalPrice}</Text>
                             <Text style={{}}>Stock :{productDetail.stock}</Text>
                             <Text style={styles.productDescription}>{productDetail.description}</Text>
-                            <View style={styles.productColorsContainer}>
-                                <TouchableOpacity style={[styles.productColor, styles.active, { backgroundColor: 'red' }]} />
-                                <TouchableOpacity style={[styles.productColor, { backgroundColor: 'yellow' }]} />
-                                <TouchableOpacity style={[styles.productColor, { backgroundColor: 'blue' }]} />
-                                <TouchableOpacity style={[styles.productColor, { backgroundColor: 'orange' }]} />
 
-                            </View>
-                            <View style={styles.productSizesContainer}>
-                                <TouchableOpacity style={[styles.productSize, styles.active]}>
-                                    <Text>S</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.productSize]}>
-                                    <Text>M</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.productSize]}>
-                                    <Text>L</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.productSize]}>
-                                    <Text>XL</Text>
-                                </TouchableOpacity>
-                            </View>
                             <View style={styles.addToCartContainer}>
                                 <TouchableOpacity style={styles.addToCartButton} onPress={_handlerAddToCart}>
                                     <Text style={styles.addToCartText}>Add To Cart</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <ReviewProduct productId={getProductId} />
+                        <ProductExtention productId={getProductId} />
                     </ScrollView>
 
 

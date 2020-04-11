@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, TouchableHighlight } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+import {
+    Ionicons,
+    FontAwesome
+} from '@expo/vector-icons/';
 import Swipeable from 'react-native-swipeable-row';
 
 
@@ -83,11 +87,11 @@ const Card = (props) => {
                     props.route?.name === "ShoppingCart" && (
                         <View style={styles.setQuanity}>
                             <TouchableOpacity style={[styles.quanityButton]} onPress={_handlerAddQuanity} >
-                                <Icon name="plus-circle" size={30} color="coral" />
+                                <FontAwesome name="plus" color="coral" size={30} />
                             </TouchableOpacity>
                             <Text>{productCart.quantity}</Text>
                             <TouchableOpacity style={[styles.quanityButton]} onPress={_handlerSubQuantity}>
-                                <Icon name="minus-circle" size={30} color="coral" />
+                                <FontAwesome name="minus" color="coral" size={30} />
                             </TouchableOpacity>
                         </View>
                     )
