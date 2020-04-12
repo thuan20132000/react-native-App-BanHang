@@ -4,9 +4,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { TabView, SceneMap } from 'react-native-tab-view';
-
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import {
+    Ionicons,
+    FontAwesome
+} from '@expo/vector-icons/';
 import ProductReview from './ProductReview';
+import ProductFeature from './ProductFeature';
 
 ProductExtention.propTypes = {
 
@@ -25,9 +29,7 @@ function ProductExtention(props) {
     );
 
     const ProductFeatures = () => (
-        <View style={[styles.scene, { backgroundColor: '#673ab7' }]}>
-            <Text>Ben map</Text>
-        </View>
+        <ProductFeature />
     );
 
     const ProductDescription = () => (
@@ -51,6 +53,21 @@ function ProductExtention(props) {
         second: ProductFeatures,
         third: ProductDescription,
     });
+    const renderTabBar = props => (
+        <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: 'white' }}
+            style={{ backgroundColor: 'coral' }}
+            renderIcon={({ route, focused, color }) => (
+                <FontAwesome
+                    name={focused ? 'comments' : 'bell'}
+                    color={color}
+                />
+            )}
+            labelStyle={{ color: 'white', fontWeight: 'bold' }}
+
+        />
+    );
 
     return (
         <View>
@@ -59,6 +76,9 @@ function ProductExtention(props) {
                 renderScene={renderScene}
                 onIndexChange={setIndex}
                 initialLayout={initialLayout}
+                renderTabBar={renderTabBar}
+                tabBarPosition={"top"}
+                style={{ height: 600 }}
             />
         </View>
     );

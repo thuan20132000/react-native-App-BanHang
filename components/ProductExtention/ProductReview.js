@@ -9,6 +9,9 @@ import {
     FontAwesome
 } from '@expo/vector-icons/';
 import { TextInput } from 'react-native-gesture-handler';
+import StarRating from 'react-native-star-rating';
+
+
 
 
 ProductReview.propTypes = {
@@ -40,7 +43,7 @@ function ProductReview(props) {
         setLoadedReview(false);
         fetchProductReview();
 
-    }, []);
+    }, [productId]);
 
     const handleReviewStar = (starNum) => {
 
@@ -58,39 +61,34 @@ function ProductReview(props) {
 
         return React_Native_Rating_Bar;
     }
-    const defaultRating = 4;
-    const [rating, setRating] = useState(4);
+    const defaultRating = 5;
+    const [getRating, setRating] = useState(3);
 
+    const [review, setReview] = useState('');
+    const _handleSendReview = () => {
 
-    const onRating = () => {
-        console.log('dsds');
+        console.log(review);
+        setReview('');
+
     }
-    const handleRating = () => {
-        let React_Native_Rating_Bar = [];
-        for (var i = 1; i <= defaultRating; i++) {
-            React_Native_Rating_Bar.push(
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    key={i}
-                    onPress={onRating()}
-                >
-                    <FontAwesome name="star" size={30} color='red' />
 
-                </TouchableOpacity>
-            );
-        }
-        return React_Native_Rating_Bar;
-    }
 
 
     return (
         <View style={{ paddingTop: 20 }}>
-            <View style={styles.reviewForm}>
+            <View style={{ paddingHorizontal: 44 }}>
+                <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={getRating}
+                    selectedStar={(rate) => setRating(rate)}
+                    fullStarColor={'#eded2d'}
+                    emptyStarColor={'#e5cd16'}
+                />
+            </View>
 
-                <View style={[styles.rating, { flexDirection: 'row' }]}>
-                    {handleRating()}
-                </View>
-                <View style={{ flexDirection: 'row' }}>
+            <View style={styles.reviewForm}>
+                <View style={{ flexDirection: 'row', marginVertical: 12 }}>
                     <TextInput
                         style={{
                             width: '80%',
@@ -102,15 +100,15 @@ function ProductReview(props) {
                         placeholder="Enter your review..."
                         placeholderTextColor="#60605e"
                         multiline={true}
+                        value={review}
+                        onChangeText={(text) => setReview(text)}
                     />
-                    <View style={{ backgroundColor: 'red', width: '20%', borderBottomRightRadius: 18, borderTopRightRadius: 18 }}>
-                        <Button
-                            title="Send"
-                        />
-                    </View>
+                    <TouchableOpacity style={styles.reviewButton}
+                        onPress={_handleSendReview}
+                    >
+                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Send</Text>
+                    </TouchableOpacity>
                 </View>
-
-
             </View>
 
             {
@@ -160,5 +158,13 @@ const styles = StyleSheet.create({
         height: 60,
         marginHorizontal: 12
 
+    },
+    reviewButton: {
+        backgroundColor: 'coral',
+        width: '20%',
+        borderBottomRightRadius: 18,
+        borderTopRightRadius: 18,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
