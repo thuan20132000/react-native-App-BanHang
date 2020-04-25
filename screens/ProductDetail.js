@@ -28,7 +28,7 @@ const ProductDetail = (props) => {
 
     useEffect(() => {
         const fetchProductDetail = () => {
-            fetch('http://young-cove-81839.herokuapp.com/api/products/' + getProductId)
+            fetch('http://boiling-depths-30001.herokuapp.com/api/products/' + getProductId)
                 .then((response) => response.json())
                 .then((result) => {
                     setProductDetail(result.data);
@@ -71,7 +71,7 @@ const ProductDetail = (props) => {
                     <ScrollView>
                         <View style={styles.productDetail}>
                             <Image style={styles.productImage}
-                                source={{ uri: productDetail.imageUrl }}
+                                source={{ uri: productDetail.image }}
                             />
 
                             <Text style={styles.productName}>{productDetail.name}</Text>

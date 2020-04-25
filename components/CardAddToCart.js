@@ -28,7 +28,7 @@ const Card = (props) => {
     const productCart = useSelector(state => state.cartItems.items[item.productId]);
 
 
-
+    console.log(prod);
 
     const _handlerAddQuanity = async () => {
         await setQuantity(productCart.productQuantity);
@@ -75,7 +75,7 @@ const Card = (props) => {
         <View style={styles.cardContainer}>
             <TouchableOpacity style={{ width: '40%', height: '100%' }} onPress={_handlerGoDetail}>
                 <Image style={styles.cardImage}
-                    source={{ uri: prod.imageUrl }}
+                    source={{ uri: prod.imgUrl }}
                 />
             </TouchableOpacity>
 

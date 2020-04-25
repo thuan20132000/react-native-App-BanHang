@@ -36,10 +36,12 @@ const Slide = (props) => {
                 <Swiper  showsButtons={false} autoplay={true}  height='100%'>
                     {
                         Categories.map((category, index) => {
+                            console.log(category.imageUrl)
                             return (
                                 <TouchableOpacity style={styles.slide} key={index}
                                     onPress={()=>_handlerProductCategory(category)}
                                 >
+                                    
                                     <ImageBackground  style={[styles.image]}
                                         source={{uri:category.imageUrl}}
                                     >
@@ -83,14 +85,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     image:{
-        width:'100%',
-        height:'100%',
-        justifyContent:'center',
-        alignItems:'center',
-        resizeMode:'contain',
+        width:'90%',
+        height:'90%',
+        resizeMode: "cover",
+        justifyContent: "center"
     },
     text:{
         fontSize:20,
         color:'tomato'
     }
 });
+
+

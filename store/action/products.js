@@ -8,7 +8,7 @@ export const fetchProducts = () => {
 
     return async dispatch => {
         const response = await fetch(
-            'http://young-cove-81839.herokuapp.com/api/products'
+            'http://boiling-depths-30001.herokuapp.com/api/products'
         );
         const resData = await response.json();
 
@@ -19,7 +19,7 @@ export const fetchProducts = () => {
             loadedProducts.push(new Product(
                 resData.data[key].id,
                 'u1',
-                resData.data[key].imageUrl,
+                resData.data[key].image,
                 resData.data[key].name,
                 resData.data[key].totalPrice,
                 resData.data[key].description,
