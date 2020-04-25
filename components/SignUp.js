@@ -16,20 +16,26 @@ const SignUp = (props) => {
         email: '',
         password: '',
     });
-    const [isError, setIsError] = useState('');
+    const [isError, setIsError] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
-
+    const [validEmail,setValidEmail] = useState(false);
+    const [validPassword,setValidPassword] = useState(false);
+    const [validName,setValidName] = useState(false);
+    const [isValidate,setIsValidate] = useState(false);
+ 
     const _handlerSignup = async () => {
 
+        if(!isValidate){
+            Alert.alert("Please enter enough information!!",'Okay')
+            return;
+        }
     
         setIsLoading(true);
         try {
             await dispatch(authAction.signup(getSignup.name,getSignup.email,getSignup.password));
-            // console.log(props);
             await props.navigation.navigate('StackMain');
         } catch (err) {
-            setIsError(" "+err);
+            setIsError(true);
         }
         setIsLoading(false);
     }
@@ -40,9 +46,39 @@ const SignUp = (props) => {
                 {text:isError}
             ])
         }
+        if(getSignup.name && getSignup.email && getSignup.password){
+            setIsValidate(true);
+        }
        
-    },[isError]);
+    },[isError,getSignup]);
 
+    const _validateEmail = (evt) =>{
+        let text = evt.nativeEvent.text;
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (reg.test(text) === false) {
+          setValidEmail("Email is invalid!!");
+        }else{
+          setValidEmail(true);
+        }
+    }
+
+    const _validatePassword = (evt) => {
+        let text = evt.nativeEvent.text;
+        if (text.length <=4) {
+          setValidPassword("Password is invalid!!");
+        }else{
+          setValidPassword(true);
+        }
+    }
+
+    const _validateName = (evt) =>{
+        let text = evt.nativeEvent.text;
+        if(text.length<=0 || text.length>=22){
+            setValidName("Name is invalid");
+        }else{
+            setValidName(true);
+        }
+    }
 
     return (
 
@@ -52,22 +88,29 @@ const SignUp = (props) => {
                 <TextInput style={styles.textInput}
                     placeholder="Enter your name..."
                     onChangeText={text => setSignup({ ...getSignup, name: text })}
+                    onEndEditing={(evt)=>_validateName(evt)}
                 />
             </View>
+            <Text style={{color:'red'}}>{validName}</Text>
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput}
                     placeholder="Enter your email..."
                     onChangeText={text => setSignup({ ...getSignup, email: text })}
+                    onEndEditing={(evt)=>_validateEmail(evt)}
                 />
             </View>
+            <Text style={{color:'red'}}>{validEmail}</Text>
+            
             <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput}
                     placeholder="Enter your password"
                     secureTextEntry={true}
                     onChangeText={text => setSignup({ ...getSignup, password: text })}
-
+                    onEndEditing={(evt)=>_validatePassword(evt)}
                 />
             </View>
+            <Text style={{color:'red'}}>{validPassword}</Text>
+
             {/* <View style={styles.textInputContainer}>
                 <TextInput style={styles.textInput}
                     placeholder="Enter your repassword"

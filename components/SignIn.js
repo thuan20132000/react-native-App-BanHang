@@ -13,12 +13,12 @@ const SignIn = (props) => {
     const dispatch = useDispatch();
     const [getEmail, setEmail] = useState();
     const [getPassword, setPassword] = useState();
-    const [isError, setError] = useState();
+    const [isError, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const _handlerLogin = async () => {
 
-
+        
         setIsLoading(true);
         try {
 
@@ -36,12 +36,14 @@ const SignIn = (props) => {
     useEffect(() => {
         
         if(isError){
-            Alert.alert('something was occured!!','Okay',[
+            Alert.alert('Your email or password is incorrect!!','Okay',[
                 {text:isError}
             ])
         }
+       
 
     },[isError]);
+   
 
     return (
 
