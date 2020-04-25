@@ -1,12 +1,24 @@
 
 
-import React from 'react';
+import React,{useEffect} from 'react';
 import { StyleSheet, View, Text, Dimensions, Image, ImageBackground, ActivityIndicator,TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
+import {useSelector,useDispatch} from 'react-redux';
 
 import CategoriesData from '../data/CategoriesData';
 
+import * as CategoryActions from '../store/action/category';
+
 const Slide = (props) => {
+
+    const dispatch = useDispatch();
+    const Categories = useSelector(state => state.categories.availableCategory);
+
+    
+    useEffect(()=>{
+        dispatch(CategoryActions.fetchCategory());
+    },[dispatch]);
+
 
     const _handlerProductCategory = (category) =>{
          props.navigation.navigate('ListProduct',{category});
@@ -23,13 +35,15 @@ const Slide = (props) => {
             <View style={styles.slideContainer}>
                 <Swiper  showsButtons={false} autoplay={true}  height='100%'>
                     {
-                        CategoriesData.categories.map((category, index) => {
+                        Categories.map((category, index) => {
+                            console.log(category.imageUrl)
                             return (
                                 <TouchableOpacity style={styles.slide} key={index}
                                     onPress={()=>_handlerProductCategory(category)}
                                 >
+                                    
                                     <ImageBackground  style={[styles.image]}
-                                        source={{uri:category.image}}
+                                        source={{uri:category.imageUrl}}
                                     >
                                         <Text style={styles.text}>{category.name}</Text>
                                     </ImageBackground>
@@ -71,14 +85,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     image:{
-        width:'100%',
-        height:'100%',
-        justifyContent:'center',
-        alignItems:'center',
-        resizeMode:'center',
+        width:'90%',
+        height:'90%',
+        resizeMode: "cover",
+        justifyContent: "center"
     },
     text:{
         fontSize:20,
         color:'tomato'
     }
 });
+
+

@@ -1,7 +1,8 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import {useSelector,useDispatch} from 'react-redux';
 
 import {
     createDrawerNavigator,
@@ -10,22 +11,41 @@ import {
     DrawerItem,
 } from '@react-navigation/drawer';
 
+import * as authenticationActions from '../store/action/users';
+
 const MenuDrawerContent = (props) => {
 
-    const userName = "Thuan Truong";
-    const [isLoggin, setIsLoggin] = useState(true);
+    const dispatch = useDispatch();
 
+    const auth = useSelector(state => state.authentication);
 
+    const [isLogedIn, setIsLogedIn] = useState(false);
+
+    const [getUserName,setUserName] = useState();
+
+    useEffect(()=>{
+        if(auth.token){
+            setIsLogedIn(true);
+            setUserName(auth.name);
+        }
+    });
+
+    
 
     const _handlerInfo = () => {
-        props.navigation.navigate('Authen')
+        props.navigation.navigate('UserInfor');
     }
-    const _handlerOrder = () => {
+    const _handlerOrderHistory = () => {    
         props.navigation.navigate('OrderHistory')
 
     }
-    const _handlerSignout = () => {
-        setIsLoggin(false);
+
+
+    const _handlerLoggedOut = () => {
+
+        dispatch(authenticationActions.userLogOut());
+        setIsLogedIn(false);
+        props.navigation.navigate('StackMain');
 
     }
     const _handlerSignin = () =>{
@@ -40,18 +60,15 @@ const MenuDrawerContent = (props) => {
                 source={{ uri: 'https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png' }}
             />
 
-            {isLoggin ? (
+            {isLogedIn ? (
                 <View style={styles.userFunctionsContainer}>
                     <View style={styles.userAuthContainer}>
-                        <Text style={{ textAlign: 'center', color: 'white' }}>{userName}</Text>
+                        <Text style={{ textAlign: 'center', color: 'white' }}>{getUserName}</Text>
                     </View>
-                    <TouchableOpacity style={styles.userFunction} onPress={_handlerOrder}>
+                    <TouchableOpacity style={styles.userFunction} onPress={_handlerOrderHistory}>
                         <Text style={styles.userFunctionText}>Order History</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.userFunction} onPress={_handlerInfo}>
-                        <Text style={styles.userFunctionText}>Change Info</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.userFunction} onPress={_handlerSignout}>
+                    <TouchableOpacity style={styles.userFunction} onPress={_handlerLoggedOut}>
                         <Text style={styles.userFunctionText}>Sign Out</Text>
                     </TouchableOpacity>
                 </View>

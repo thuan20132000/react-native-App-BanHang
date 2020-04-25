@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,13 +13,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 
-
-
 import MainScreen from '../screens/MainScreen';
 import AuthenticationScreen from '../screens/AuthenticationScreen';
 import TopProducts from '../components/topProducts';
-import UserInformation from '../screens/Users/UserInformation';
 import OrderHistory from '../screens/Users/OrderHistory';
+import OrderTrack from '../screens/Users/OrderTrack';
 import CartScreen from '../screens/CartScreen';
 import ContactScreen from '../screens/ContactScreen';
 
@@ -30,10 +28,18 @@ import { useSelector } from 'react-redux';
 
 
 
+
+
+
 const StackNav = createStackNavigator();
-const StackNavScreen = () => {
+const StackProductScreen = () => {
   return (
-    <StackNav.Navigator>
+    <StackNav.Navigator
+      screenOptions={{
+        headerTransparent: false,
+        headerShown: true
+      }}
+    >
       <StackNav.Screen
         name="Main" component={MainScreen}
       />
@@ -42,19 +48,21 @@ const StackNavScreen = () => {
       />
 
       <StackNav.Screen
-        name="UserInfor" component={UserInformation}
-      />
-      <StackNav.Screen
-        name="OrderHistory" component={OrderHistory}
-      />
-      <StackNav.Screen
         name="ListProduct" component={ListProduct}
       />
+      <StackNav.Screen
+        name="ShoppingCart" component={CartScreen}
+      />
+
 
 
     </StackNav.Navigator>
   )
 }
+
+
+
+
 
 const CartStackScreen = () => {
   return (
@@ -66,31 +74,6 @@ const CartStackScreen = () => {
   )
 }
 
-const ContactStackScreen = () => {
-  return (
-    <StackNav.Navigator>
-      <StackNav.Screen
-        name="ShoppingCart" component={ContactScreen}
-      />
-    </StackNav.Navigator>
-  )
-}
-
-const Auth = createStackNavigator();
-
-const AuthScreen = () => {
-  return (
-    <Auth.Navigator>
-      <Auth.Screen
-        name="Main" component={MainScreen}
-      />
-      <Auth.Screen
-        name="Authen" component={AuthenticationScreen}
-      />
-
-    </Auth.Navigator>
-  )
-}
 
 
 
@@ -132,12 +115,22 @@ const TabNavScreen = () => {
   const carts = useSelector(state => state.cartItems);
   let countCart = Object.keys(carts.items).length;
 
+  const users = useSelector(state => state.authentication);
 
 
   function HomeIconWithBadge(props) {
     // You should pass down the badgeCount in some other ways like React Context API, Redux, MobX or event emitters.
     return <IconWithBadge {...props} badgeCount={countCart} />;
   }
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    users.token ? setIsLoggedIn(true) : setIsLoggedIn(false);
+
+
+  })
 
   return (
     <TabNav.Navigator
@@ -165,6 +158,8 @@ const TabNavScreen = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarVisible: true,
+        headerTransparent: false
       })}
 
       tabBarOptions={{
@@ -173,11 +168,55 @@ const TabNavScreen = () => {
       }}
 
     >
-      <TabNav.Screen name="home" component={StackNavScreen} />
+      <TabNav.Screen name="home" component={StackProductScreen} />
       <TabNav.Screen name="cart" component={CartStackScreen} />
-      <TabNav.Screen name="search" component={StackNavScreen} />
-      <TabNav.Screen name="contact" component={ContactStackScreen} />
+      {/* <TabNav.Screen name="contact" component={ContactStackScreen} /> */}
+
+
     </TabNav.Navigator>
+  )
+}
+
+
+
+
+
+const Auth = createStackNavigator();
+const AuthScreen = (props) => {
+
+  const users = useSelector(state => state.authentication);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    users.token ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  })
+
+  return (
+    <Auth.Navigator>
+      <Auth.Screen
+        name="StackMain"
+        component={TabNavScreen}
+        options={{
+          headerShown: false,
+          headerTransparent: false,
+
+        }}
+      />
+
+      <Auth.Screen
+        name="OrderHistory" component={OrderHistory}
+      />
+      <Auth.Screen
+        name="OrderTrack" component={OrderTrack}
+      />
+
+      <Auth.Screen
+        name="Authen"
+        component={AuthenticationScreen}
+      />
+
+    </Auth.Navigator>
   )
 }
 
@@ -188,28 +227,22 @@ const TabNavScreen = () => {
 const DrawerNav = createDrawerNavigator();
 export default function Navigator() {
 
-  const [isSignedIn, setIsSignedIn] = React.useState(true);
-
 
   return (
-      <NavigationContainer>
-        <DrawerNav.Navigator drawerType='slide'
-          drawerContent={(props) => <CustomDrawerContent {...props} />}
-        >
-          {
-            isSignedIn ? (
-              <DrawerNav.Screen name="authTab" component={TabNavScreen} />
-            ) : (
-                <DrawerNav.Screen name="authStack" component={AuthScreen} />
+    <NavigationContainer>
+      <DrawerNav.Navigator drawerType='slide'
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
 
-              )
-          }
+        <DrawerNav.Screen name="auth" component={AuthScreen} />
 
-        </DrawerNav.Navigator>
-      </NavigationContainer>
+      </DrawerNav.Navigator>
+    </NavigationContainer>
 
   );
 }
+
+
 
 
 function CustomDrawerContent(props) {

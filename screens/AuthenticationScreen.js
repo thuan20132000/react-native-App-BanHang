@@ -1,9 +1,10 @@
 
 
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import {useSelector,useDispatch} from 'react-redux';
 
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
@@ -12,8 +13,23 @@ import SignUp from '../components/SignUp';
 
 const AuthenticationScreen = (props) => {
 
-    const [isSignin,setIsSignin] = useState(true);
 
+    const [isLogedIn,setIsLogedin] = useState(false);
+    const users = useSelector(state => state.authentication);
+
+
+    const _handlerLogedIn = (val) =>{
+            setIsLogedin(val);
+        
+        if(users.token){
+            Alert.alert("Login success");
+            props.navigation.navigate('StackMain');
+            // props.
+
+        }else{
+            Alert.alert("Login failed");
+        }
+    }
 
     return (
 
@@ -24,29 +40,27 @@ const AuthenticationScreen = (props) => {
         >
             <View style={styles.authenContent}>
                 {
-                    isSignin?(
-                        <SignIn/>
+                    isLogedIn?(
+                        <SignIn {...props} isLogedIn={_handlerLogedIn}  />
                     ):(
-                        <SignUp/>
+                        <SignUp {...props}/>
                     )
                 }
-                <TouchableOpacity style={styles.submitButton}>
-                    <Text style={styles.submitText}>{isSignin?'SIGN IN':'SIGN UP'}</Text>
-                </TouchableOpacity>
+                
             </View>
 
             <View style={styles.authenSelect}>
-                <TouchableOpacity style={[styles.authButton, isSignin?styles.active:styles.inactive, { borderTopLeftRadius: 22, borderBottomLeftRadius: 22 }]}
+                <TouchableOpacity style={[styles.authButton, isLogedIn?styles.active:styles.inactive, { borderTopLeftRadius: 22, borderBottomLeftRadius: 22 }]}
                     onPress={()=>{
-                        setIsSignin(true);
+                        setIsLogedin(true);
                     }}
                 >
                     <Text style={[styles.buttonText]}>Sign In</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.authButton,!isSignin?styles.active:styles.inactive, { borderBottomRightRadius: 22, borderTopRightRadius: 22 }]}
+                <TouchableOpacity style={[styles.authButton,!isLogedIn?styles.active:styles.inactive, { borderBottomRightRadius: 22, borderTopRightRadius: 22 }]}
                     onPress={()=>{
-                        setIsSignin(false)
+                        setIsLogedin(false)
                     }}
                 >
                     <Text style={styles.buttonText}>Sign Up</Text>

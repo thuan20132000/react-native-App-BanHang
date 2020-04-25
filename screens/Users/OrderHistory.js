@@ -1,29 +1,92 @@
 
-import React from 'react';
-import { StyleSheet,View,Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet,View,Text,ActivityIndicator } from 'react-native';
 import Header from '../../components/Header';
 
+import CardListOrder from '../../components/CardListOrder';
+import { FlatList } from 'react-native-gesture-handler';
+
+import Categories from '../../data/CategoriesData';
+import * as orderAction from '../../store/action/order';
+
+import {useDispatch,useSelector} from 'react-redux';
 
 const OrderHistory = (props) =>{
 
+    // console.log(Categories);
+    const dispatch = useDispatch();
+    const [isLoading,setIsLoading]  = useState(true);
+
+    const orders = useSelector(state => state.orders);
+    const ordersData = orders.orders;
+
+ 
 
 
-    const openDrawer= () =>{
-        props.navigation.openDrawer();
+    useEffect(()=>{
+        
+        setIsLoading(true);
+        dispatch(orderAction.fetchOrders()).then(()=>{
+            setIsLoading(false);
+
+        })
+    },[]);
+
+
+    const _goToOrderTrack = (order)=>{
+        props.navigation.navigate('OrderTrack',{order});
     }
+
+  
     props.navigation.setOptions({
         headerStyle:{
             backgroundColor:'tomato'
         },
         headerTitle:()=>{
             return(
-                <Header openMenu={openDrawer}/>
+                <Header openMenu={()=>props.navigation.openDrawer()} {...props}/>
             )
-        }
+        },
+        headerLeft:false
+
     });
+
+    if(isLoading){
+        return(
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <ActivityIndicator
+                    size='large' color="coral"
+                />
+            </View>
+        )
+    }
+
     return(
-        <View>
-                <Text>Information of User</Text>
+
+
+
+        <View style={styles.containerScreen}>
+                <Text style={styles.Title}>My Orders</Text>
+                
+            <FlatList
+
+                data={ordersData.reverse()}
+                renderItem={({item})=>{
+                    return (
+                        <CardListOrder 
+                            id={item.id}
+                            date={item.date}
+                            image={item.image}
+
+                            onPress={()=>_goToOrderTrack(item)}
+
+                        
+                        />
+                    )
+                }}
+                keyExtractor={item => item.id}
+
+        />
         </View>
     )
 }
@@ -31,6 +94,14 @@ export default OrderHistory;
 
 const styles = StyleSheet.create({
     containerScreen:{
-        flex:1
+        flex:1,
+        justifyContent:'flex-start',
+        alignItems:'center',
+        paddingTop:20,
+        backgroundColor:'#fff'
+    },
+    Title:{
+        fontSize:34,
+        fontWeight:'bold'
     }
 });

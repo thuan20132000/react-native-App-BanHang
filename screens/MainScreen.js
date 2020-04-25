@@ -15,6 +15,7 @@ import * as productActions from '../store/action/products';
 
 const MainScreen = (props) => {
 
+
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -25,7 +26,7 @@ const MainScreen = (props) => {
         headerLeft:null,
         headerTitle: () => {
             return (
-                <Header openMenu={()=>props.navigation.openDrawer()} {...props} />
+                <Header openMenu={()=>props.navigation.openDrawer()} openCart={()=>props.navigation.navigate('ShoppingCart')} {...props} />
             )
         },
         headerStyle:{
@@ -80,12 +81,12 @@ const styles = StyleSheet.create({
 
     },
     topProducts: {
-        backgroundColor: 'red',
-        backgroundColor: '#fff',
-        shadowColor: '#2E272B',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.5,
-        marginTop: 20
+        // backgroundColor: 'red',
+        // backgroundColor: '#fff',
+        // shadowColor: '#2E272B',
+        // shadowOffset: { width: 0, height: 3 },
+        // shadowOpacity: 0.5,
+        // marginTop: 20
 
     }
 });
