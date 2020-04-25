@@ -1,7 +1,7 @@
 
 
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Image, Dimensions, ScrollView,ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CardListProduct from '../components/CardListProduct';
 import Header from '../components/Header';
@@ -11,9 +11,10 @@ import { useSelector } from 'react-redux';
 
 const ListProduct = (props) => {
     const category = props.route.params?.category;
-    const PRODUCTS = useSelector(state => state.products.availableProducts);
-    const productList = PRODUCTS.filter(product => product.cate_id == category.id);
+    
 
+    const [productList,setProductList] = useState('');
+    const [isLoading,setIsLoading] = useState(true);
 
     const _handlerOnPress = (product) => {
         props.navigation.navigate('ProductDetail', { product: product });
@@ -22,6 +23,24 @@ const ListProduct = (props) => {
     const _handlerBack = () => {
         props.navigation.goBack();
     }
+
+    const fetchProductByCategory = async ()=>{
+
+        setIsLoading(true);
+        try {
+            const res = await fetch(`http://boiling-depths-30001.herokuapp.com/api/products?category=${category.id}`);
+            const products = await res.json();
+            setProductList(products.data);
+            console.log(products.data);
+        } catch (error) {
+            
+        }
+        setIsLoading(false);
+    }
+
+    useEffect(()=>{
+        fetchProductByCategory();
+    },[]);
 
 
     props.navigation.setOptions({
@@ -36,6 +55,13 @@ const ListProduct = (props) => {
         }
     });
     return (
+        isLoading ? (
+
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+                <ActivityIndicator size='small' color='red' />
+            </View>
+
+        ) : (
         <View style={styles.screenContainer}>
             <NavigationBar style={styles.navigationBar} cateName={category.name} onPress={_handlerBack} />
             <ScrollView>
@@ -49,6 +75,7 @@ const ListProduct = (props) => {
             </ScrollView>
 
         </View>
+        )
     )
 }
 
