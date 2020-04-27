@@ -25,19 +25,21 @@ const ProductDetail = (props) => {
     });
     const [productReview, setProductReview] = useState();
 
+    const fetchProductDetail = async () =>{
+
+        setIsLoading(true);
+        try {
+            const res = await fetch(`http://boiling-depths-30001.herokuapp.com/api/products/${getProductId}`);
+            const product = await res.json();
+            setProductDetail(product.data)
+        } catch (error) {
+            console.error('Error ',error);
+        }
+        setIsLoading(false);
+    }
+
 
     useEffect(() => {
-        const fetchProductDetail = () => {
-            fetch('http://boiling-depths-30001.herokuapp.com/api/products/' + getProductId)
-                .then((response) => response.json())
-                .then((result) => {
-                    setProductDetail(result.data);
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
         fetchProductDetail();
     }, []);
 

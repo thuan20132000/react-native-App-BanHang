@@ -54,10 +54,10 @@ export const signup = (name="test",email,password) => {
         console.log(resData);
 
     
-        dispatch(authenticate("userid",resData.success.token,name));
+        dispatch(authenticate(resData.success.id,resData.success.token,resData.success.name));
 
         const expirationDate = new Date(new Date().getTime() * 3360);
-        saveDataToStorage(resData.success.token,"userid",expirationDate,name);
+        saveDataToStorage(resData.success.token,resData.success.id,expirationDate,name);
 
   };
 
