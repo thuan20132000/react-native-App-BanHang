@@ -61,7 +61,6 @@ export const addOrder = (cartItems,totalAmount)=>{
         const user = getState().authentication;
         // const item = await AsyncStorage.getItem('userData');
 
-
         var currentdate = new Date(); 
         var orderDate = currentdate.getDate() + "-"
                 + (currentdate.getMonth()+1)  + "-" 
@@ -69,12 +68,11 @@ export const addOrder = (cartItems,totalAmount)=>{
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-        const userId = user.userId;
+        const userId = user.userId;//error here 
         const userToken = user.token;
-        console.log(cartItems);
-        console.log(userId);
+        console.log(totalAmount);
        
-        const response = await fetch(`http://boiling-depths-30001.herokuapp.com/api/order/2`,
+        const response = await fetch(`http://boiling-depths-30001.herokuapp.com/api/order/${userId}`,
         {
             method:'POST', 
             headers:{
@@ -82,20 +80,9 @@ export const addOrder = (cartItems,totalAmount)=>{
             },
     
             body:JSON.stringify({
-               "cartItems":[
-                    {
-                    "productId": 2,
-                    "productPrice": 11,
-                    "productQuantity": 11
-                    },
-                    {
-                    "productId": 3,
-                    "productPrice": 11,
-                    "productQuantity": 11
-                    },
-               ],
-               "totalAmount":"123",
-               "date": "12-02-1009"
+               "cartItems":cartItems,
+               "totalAmount":totalAmount,
+               "date": currentdate
             })
         });
         if(!response.ok){

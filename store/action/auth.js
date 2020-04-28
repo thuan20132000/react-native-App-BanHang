@@ -5,7 +5,8 @@ export const SIGNIN = 'SIGNIN';
 export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE  = 'AUTHENTICATE';
 
-export const authenticate = (userId,token,name="test") =>{
+export const authenticate = (userId,token,name) =>{
+  console.log(userId);
   return{
        type:AUTHENTICATE,
        userId :userId,
@@ -14,7 +15,7 @@ export const authenticate = (userId,token,name="test") =>{
   }
 }
 
-export const signup = (name="test",email,password) => {
+export const signup = (name,email,password) => {
 
   return async dispatch => {
     
