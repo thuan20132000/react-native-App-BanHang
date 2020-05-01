@@ -15,10 +15,7 @@ const Card = (props) => {
     const { product } = props;
     const products = useSelector(state => state.products.availableProducts);
     const [isLoading, setIsLoading] = useState(true);
-
-
     const prod = products.find(p => p.id === product.id);
-
 
     const [getQuantity, setQuantity] = useState(1);
 
@@ -48,7 +45,6 @@ const Card = (props) => {
         <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
         <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
     ];
-
     return (
 
         // isLoading ?(<ActivityIndicator size='small' color='red' /> ):(

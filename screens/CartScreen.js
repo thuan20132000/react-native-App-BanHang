@@ -50,12 +50,8 @@ const CartScreen = (props) => {
     const _handlerOrder = async () => {
         setIsLoading(true);
         try {
-            try {
-                await dispatch(orderActions.addOrder(carts,totalAmount));
-
-            } catch (error) {
-                console.log("error add order ",error);
-            }
+            
+            await dispatch(orderActions.addOrder(carts,totalAmount));
             await dispatch(cartActions.removeAllCart());
         } catch (error) {
             console.log("" + error);

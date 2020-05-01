@@ -6,7 +6,7 @@ export const fetchCategory = () => {
 
     return async dispatch => {
         const response = await fetch(
-            'http://boiling-depths-30001.herokuapp.com/api/categories'
+            'http://45.32.59.144/api/categories'
         );
         const resData = await response.json();
 
@@ -22,7 +22,6 @@ export const fetchCategory = () => {
 
         }
         // console.log(loadedCategory);
-        console.log(resData.data[0].image);
         dispatch({
             type: SET_CATEGORY,
             category: loadedCategory

@@ -20,6 +20,7 @@ import OrderHistory from '../screens/Users/OrderHistory';
 import OrderTrack from '../screens/Users/OrderTrack';
 import CartScreen from '../screens/CartScreen';
 import ContactScreen from '../screens/ContactScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 import MenuDrawerContent from '../components/MenuDrawerContent';
 import ProductDetail from '../screens/ProductDetail';
@@ -52,6 +53,9 @@ const StackProductScreen = () => {
       />
       <StackNav.Screen
         name="ShoppingCart" component={CartScreen}
+      />
+      <StackNav.Screen  
+      name="Search" component={SearchScreen}
       />
 
 

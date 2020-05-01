@@ -36,7 +36,6 @@ const Slide = (props) => {
                 <Swiper  showsButtons={false} autoplay={true}  height='100%'>
                     {
                         Categories.map((category, index) => {
-                            console.log(category.imageUrl)
                             return (
                                 <TouchableOpacity style={styles.slide} key={index}
                                     onPress={()=>_handlerProductCategory(category)}

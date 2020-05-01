@@ -1,7 +1,7 @@
 
 
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View, Text, TextInput, Dimensions, Keyboard,TouchableWithoutFeedback } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -38,8 +38,13 @@ const Header = (props) => {
       </View>
     );
   }
+  const ref_search_input = useRef();
 
-  // currentScreen === 'Main'?setIsMainScreen(true):setIsMainScreen(false);
+  const _startSearch =  () =>{
+    // console.log(ref_search_input.current._inputRef.viewConfig.validAttributes);
+     props.route.name !== "Search"?props.navigation.navigate("Search"):"";
+    // ref_search_input.current._inputRef.viewConfig.validAttributes.editable = true;
+  }
 
   return (
     <View style={styles.container}>
@@ -53,12 +58,20 @@ const Header = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.textInputContainer}>
-
-        <TextInput
-          style={styles.textInput}
-          placeholder="What do you want to buy?"
-          onChangeText={(text) => console.log(text)}
-        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TextInput
+              style={styles.textInput}
+              placeholder="What do you want to buy?"
+              clearTextOnFocus={true}
+              ref={ref_search_input}
+              autoFocus={props.route.name !== "Search"?false:true}
+              onTouchStart={_startSearch}
+              editable={props.route.name !== "Search"?false:true}
+              
+            />
+        </TouchableWithoutFeedback>
+        
+        
       </View>
     </View>
   )

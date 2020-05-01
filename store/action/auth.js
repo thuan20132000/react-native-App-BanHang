@@ -6,7 +6,6 @@ export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE  = 'AUTHENTICATE';
 
 export const authenticate = (userId,token,name) =>{
-  console.log(userId);
   return{
        type:AUTHENTICATE,
        userId :userId,
@@ -20,7 +19,7 @@ export const signup = (name,email,password) => {
   return async dispatch => {
     
         const response = await fetch(
-            `http://boiling-depths-30001.herokuapp.com/api/register`,
+            `http://45.32.59.144/api/register`,
             {
               method: 'POST',
               headers: {
@@ -52,7 +51,6 @@ export const signup = (name,email,password) => {
         }
         
         const resData = await response.json();
-        console.log(resData);
 
     
         dispatch(authenticate(resData.success.id,resData.success.token,resData.success.name));
@@ -70,7 +68,7 @@ export const login = (email,password) =>{
     return async dispatch =>{
         
             const response = await fetch(
-                `http://boiling-depths-30001.herokuapp.com/api/login`,
+                `http://45.32.59.144/api/login`,
                 {
                   method: 'POST',
                   headers: {
@@ -111,9 +109,9 @@ export const login = (email,password) =>{
 
               const expirationDate = new Date(new Date().getTime() + 3600);
 
-              saveDataToStorage(resData.success.token,"userId",expirationDate,"testName");
+              saveDataToStorage(resData.success.token,resData.success.id,expirationDate,resData.success.name);
 
-              dispatch(authenticate("userId",resData.success.token,"testName"));
+              dispatch(authenticate(resData.success.id,resData.success.token,resData.success.name));
     }
 }
 

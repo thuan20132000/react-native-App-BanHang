@@ -29,7 +29,7 @@ const ProductDetail = (props) => {
 
         setIsLoading(true);
         try {
-            const res = await fetch(`http://boiling-depths-30001.herokuapp.com/api/products/${getProductId}`);
+            const res = await fetch(`http://45.32.59.144/api/products/${getProductId}`);
             const product = await res.json();
             setProductDetail(product.data)
         } catch (error) {

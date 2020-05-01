@@ -8,7 +8,7 @@ export const fetchProducts = () => {
 
     return async dispatch => {
         const response = await fetch(
-            'http://boiling-depths-30001.herokuapp.com/api/products'
+            'http://45.32.59.144/api/products'
         );
         const resData = await response.json();
 

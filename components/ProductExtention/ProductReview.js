@@ -30,7 +30,7 @@ function ProductReview(props) {
 
     useEffect(() => {
         const fetchProductReview = () => {
-            fetch(`http://young-cove-81839.herokuapp.com/api/products/${productId}/reviews`)
+            fetch(`http://45.32.59.144/api/products/${productId}/reviews`)
                 .then((response) => response.json())
                 .then((result) => {
                     setProductReview(result);

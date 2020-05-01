@@ -18,7 +18,7 @@ export const fetchOrders = ()=>{
         const loadedOrders = [];
         try{
             const response = await fetch(
-                `https://react-native-shopping-ap-6c952.firebaseio.com/orders/${userId}.json`
+                `http://45.32.59.144/api/order/${userId}`
             );
 
             if(!response.ok){
@@ -27,14 +27,14 @@ export const fetchOrders = ()=>{
             }
             
             const resData = await response.json();
-            // console.log(resData);
+            console.log(resData);
             for(const key in resData){
                 loadedOrders.push(
                    new Order(
                         key,
-                        resData[key].cartItems,
-                        resData[key].totalAmount,
-                        resData[key].date
+                        resData[key].user_id,
+                        resData[key].subtotal,
+                        resData[key].created_at
                    )
                 );    
             }
@@ -57,10 +57,9 @@ export const addOrder = (cartItems,totalAmount)=>{
    
 
     return async (dispatch,getState) => {
-
         const user = getState().authentication;
         // const item = await AsyncStorage.getItem('userData');
-
+        console.log(user);
         var currentdate = new Date(); 
         var orderDate = currentdate.getDate() + "-"
                 + (currentdate.getMonth()+1)  + "-" 
@@ -70,9 +69,8 @@ export const addOrder = (cartItems,totalAmount)=>{
                 + currentdate.getSeconds();
         const userId = user.userId;//error here 
         const userToken = user.token;
-        console.log(totalAmount);
        
-        const response = await fetch(`http://boiling-depths-30001.herokuapp.com/api/order/${userId}`,
+        const response = await fetch(`http://45.32.59.144/api/order/${userId}`,
         {
             method:'POST', 
             headers:{

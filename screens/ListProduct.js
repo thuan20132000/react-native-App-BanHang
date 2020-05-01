@@ -28,10 +28,9 @@ const ListProduct = (props) => {
 
         setIsLoading(true);
         try {
-            const res = await fetch(`http://boiling-depths-30001.herokuapp.com/api/products?category=${category.id}`);
+            const res = await fetch(`http://45.32.59.144/api/products?category=${category.id}`);
             const products = await res.json();
             setProductList(products.data);
-            console.log(products.data);
         } catch (error) {
             
         }
